@@ -1,45 +1,48 @@
 import React, { useState } from "react";
 
+import { createStage, checkCollision } from "../gameHelpers";
+
+//styled components
+import { StyledTetrisWrapper, StyledTetris } from "./styles/StyledTetris";
+
+//custom hooks
+import { usePlayer } from "../hooks/usePlayer";
+import { useStage } from "../hooks/useStage";
+
 //components
 import Stage from "./Stage";
 import Display from "./Display";
 import StartButton from "./StartButton";
-//hooks
-import { usePlayer } from "../hooks/usePlayer";
-import { useStage } from "../hooks/useStage";
-//styledComponents
-import { StyledTetrisWrapper, StyledTetris } from "./styles/StyledTetris";
-import { createStage, checkCollision } from "./../gameHelpers";
 
 const Tetris = () => {
   const [dropTime, setDropTime] = useState(null);
   const [gameOver, setGameOver] = useState(false);
 
-  const [player, playerRotate, updatePlayerPos, resetPlayer] = usePlayer();
+  const [player, updatePlayerPos, resetPlayer, playerRotate] = usePlayer();
   const [stage, setStage] = useStage(player, resetPlayer);
 
   console.log("re-render");
 
   const movePlayer = (dir) => {
-    if (!checkCollision(player, stage, { x: dir, y: dir })) {
+    if (!checkCollision(player, stage, { x: dir, y: 0 })) {
       updatePlayerPos({ x: dir, y: 0 });
     }
   };
 
   const startGame = () => {
-    //Reset everything
-    console.log("Test");
+    //reset everything
     setStage(createStage());
     resetPlayer();
-    setGameOver();
+    setGameOver(false);
   };
 
   const drop = () => {
     if (!checkCollision(player, stage, { x: 0, y: 1 })) {
       updatePlayerPos({ x: 0, y: 1, collided: false });
     } else {
+      //game Over
       if (player.pos.y < 1) {
-        console.log("Game over");
+        console.log("GAME OVER!!!");
         setGameOver(true);
         setDropTime(null);
       }
@@ -51,7 +54,6 @@ const Tetris = () => {
     drop();
   };
 
-  //left: 37, right: 39, up: 38, down: 40
   const move = ({ keyCode }) => {
     if (!gameOver) {
       if (keyCode === 37) {
@@ -72,12 +74,12 @@ const Tetris = () => {
         <Stage stage={stage} />
         <aside>
           {gameOver ? (
-            <Display gameOver={gameOver} text={"Game Over"} />
+            <Display gameOver={gameOver} text="Game Over" />
           ) : (
             <div>
-              <Display text="Score:" />
-              <Display text="Rows:" />
-              <Display text="Level:" />
+              <Display text="Score" />
+              <Display text="Rows" />
+              <Display text="Level" />
             </div>
           )}
           <StartButton callback={startGame} />

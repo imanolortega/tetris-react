@@ -1,6 +1,7 @@
 import { useState, useCallback } from "react";
+
 import { TETROMINOS, randomTetromino } from "../tetrominos";
-import { checkCollision, STAGE_WIDTH } from "./../gameHelpers";
+import { STAGE_WIDTH, checkCollision } from "../gameHelpers";
 
 export const usePlayer = () => {
   const [player, setPlayer] = useState({
@@ -10,11 +11,11 @@ export const usePlayer = () => {
   });
 
   const rotate = (matrix, dir) => {
-    //make the rows to become cols (transpose)
+    // Make the rows to become cols (transpose)
     const rotatedTetro = matrix.map((_, index) =>
       matrix.map((col) => col[index])
     );
-    //reverse each row to get a rotated matrix
+    // Reverse each row to get a rotated matrix
     if (dir > 0) return rotatedTetro.map((row) => row.reverse());
     return rotatedTetro.reverse();
   };
@@ -53,5 +54,5 @@ export const usePlayer = () => {
     });
   }, []);
 
-  return [player, playerRotate, updatePlayerPos, resetPlayer];
+  return [player, updatePlayerPos, resetPlayer, playerRotate];
 };
