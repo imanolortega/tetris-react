@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const StyledStartButton = styled.button`
+export const StyledFinishButton = styled.button`
   box-sizing: border-box;
   margin: 0 0 20px 0;
   padding: 20px;
@@ -9,7 +9,7 @@ export const StyledStartButton = styled.button`
   border-radius: 20px;
   border: none;
   color: white;
-  background: #22a374;
+  background: #ff6c70;
   font-family: Pixel, Arial, Helvetica, sans-serif;
   font-size: 1rem;
   outline: none;
@@ -17,6 +17,6 @@ export const StyledStartButton = styled.button`
   transition: 0.3s;
 
   :hover {
-    background: #0b806a;
+    background: #ff5661;
   }
 `;
